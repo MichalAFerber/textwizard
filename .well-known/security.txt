@@ -1,0 +1,4 @@
+Contact: https://github.com/MichalAFerber/textwizard/issues
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://textwizard.us/.well-known/security.txt

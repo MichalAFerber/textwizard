@@ -1,0 +1,9 @@
+/* TEAM */
+Creator: Michal Ferber
+Site: https://textwizard.us
+
+/* SITE */
+Last update: 2026/05/11
+Standards: HTML5, CSS3, ES Modules
+Source: https://github.com/MichalAFerber/textwizard
+Components: Pure HTML / CSS / JS — no frameworks, no build step
