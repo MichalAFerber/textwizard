@@ -1,0 +1,27 @@
+  ---                                                                                                                                                                     
+  Home server reverse proxy — 2026-05-10                 
+                                                                                                                                                                          
+  ✅ Done                                                
+                                                                                                                                                                          
+  - NPM stack at /opt/docker/nginx-proxy-manager/ (admin :81, serves :80/:443)                                                                                            
+  - plain nginx stack at /opt/docker/nginx/ (host :8080, customized index page) — also served as www.mykk.foo
+  - All Docker stacks attached to shared proxy network (apprise, dockge, homebox, transmute, uptime-kuma, speedtest-tracker; omada stays host-network)                    
+  - Let's Encrypt wildcard cert *.mykk.foo via Cloudflare DNS-01 (auto-renews)                                                                                            
+  - 13 services live behind NPM with HTTPS: apprise, dockge, homebox, omada, speedtest, transmute, uptime, pihole-a, pihole-b, pfsense, pbs, pve, www                     
+  - Internal DNS updated on unbound (.12 and .13) with all new hostnames; omada.mykk.foo repointed from decommissioned .15 → .11                                          
+  - UFW rule added on .11 for proxy-bridge → host omada ports (8043, 8088)                                                                                                
+  - Speedtest → Apprise → Discord notification chain working (fix: container name not LAN IP)                                                                             
+  - pfSense rebind protection whitelisted pfsense.mykk.foo                                                                                                                
+                                                                                                                                                                          
+  ⚠️  Outstanding                                                                                                                                                          
+                                                                                                                                                                          
+  - Push DNS via DHCP at the Netgate (192.168.50.1 → Services → DHCP Server → LAN → DNS Servers .12 / .13) so every device on the LAN inherits internal resolution        
+  automatically — currently you're configuring per device
+  - Optional: PVE long-session timeout — if you use the noVNC console for >60s idle, add proxy_read_timeout 36000s; proxy_send_timeout 36000s; to the pve.mykk.foo        
+  Advanced tab                                                                                                                                                            
+  - Optional: HSTS — currently OFF on all proxy hosts. Safe to enable now that all certs are stable; once enabled, browsers will refuse plain HTTP for max-age (usually 1
+  year)                                                                                                                                                                   
+  - Cloudflare token IP allowlist — current IPv4 24.211.69.233. If ISP rotates, cert renewals fail silently with code 9109 — refresh at Cloudflare → My Profile → API
+  Tokens                                                                                                                                                                  
+  - Two harmless side-effects: Edit(/opt/docker/**) rule added twice in ~/.claude/settings.local.json; backup files like local.conf~ exist on the unbound hosts
+                                                                                                                                                                          
