@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page not found — TextWizard</title>
+  <meta name="description" content="The page you were looking for doesn't exist." />
+  <meta name="robots" content="noindex,follow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script>
+    // Apply theme before render to prevent flash of wrong theme.
+    (function () {
+      try {
+        var t = localStorage.getItem('tw::theme');
+        if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      } catch (_) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="legal-body">
+  <main class="legal">
+    <h1>404 — Page not found</h1>
+    <p class="legal-meta">That page doesn't exist, or it may have moved.</p>
+    <p><a href="/" class="legal-back">← Back to TextWizard</a></p>
+  </main>
+</body>
+</html>
