@@ -55,22 +55,11 @@
   </script>
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Google Analytics — replace G-XXXXXXXXXX with your Measurement ID -->
-  <!--
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
-  </script>
-  -->
-
-  <!-- Cloudflare Web Analytics — replace YOUR_TOKEN with your token -->
-  <!--
-  <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
-          data-cf-beacon='{"token": "YOUR_TOKEN"}'></script>
-  -->
+  <!-- Plausible Analytics — privacy-friendly, cookieless, self-hosted.
+       The script.hash.js variant is used because this app is hash-routed
+       (each tool is a #route), so tool views are recorded as pageviews.
+       data-domain must match the site's domain configured in Plausible. -->
+  <script defer data-domain="textwizard.us" src="https://plausible.thompsonblack.us/js/script.hash.js"></script>
 </head>
 <body>
   <aside class="sidebar">
