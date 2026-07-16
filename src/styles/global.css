@@ -673,6 +673,30 @@ textarea.tw-textarea:focus {
 .legal ul { padding-left: 22px; }
 .legal li { margin: 4px 0; }
 
+/* Info cards (Contact channels, etc.) */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin: 22px 0 10px;
+}
+.info-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 16px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.12s ease, transform 0.1s ease, box-shadow 0.12s ease;
+}
+.info-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.info-card-title { font-weight: 640; font-size: 15px; }
+.info-card-desc { flex: 1 1 auto; font-size: 13.5px; color: var(--text-dim); line-height: 1.5; }
+.info-card-link { margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--accent); }
+
 /* ---------- Emoji picker ---------- */
 .emoji-controls { margin-bottom: 18px; }
 #emoji-search { width: 100%; max-width: 440px; }

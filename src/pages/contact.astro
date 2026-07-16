@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+const title = 'Contact — TextWizard';
+const description =
+  'How to reach the TextWizard project. Open source and privacy-first with no backend — the best way to get a fix or feature is on GitHub.';
+const repo = 'https://github.com/MichalAFerber/textwizard';
+---
+<Base title={title} description={description}>
+  <main class="container legal">
+    <p><a href="/" class="legal-back">← Back to TextWizard</a></p>
+    <h1>Contact</h1>
+    <p class="legal-meta">Open source · privacy-first · no backend</p>
+
+    <p>
+      TextWizard is a small, open-source project that runs entirely in your browser — there are
+      no accounts and no server collecting messages. The fastest way to reach us, report a bug, or
+      request a feature is on GitHub, where everything is developed in the open.
+    </p>
+
+    <div class="info-grid">
+      <a class="info-card" href={`${repo}/issues/new`} target="_blank" rel="noopener">
+        <span class="info-card-title">Bugs &amp; feature requests</span>
+        <span class="info-card-desc">Open an issue — the best place for anything about the tools.</span>
+        <span class="info-card-link">Open an issue →</span>
+      </a>
+      <a class="info-card" href={`${repo}/security/advisories/new`} target="_blank" rel="noopener">
+        <span class="info-card-title">Security</span>
+        <span class="info-card-desc">Report a vulnerability privately via a GitHub security advisory.</span>
+        <span class="info-card-link">Report privately →</span>
+      </a>
+      <a class="info-card" href={repo} target="_blank" rel="noopener">
+        <span class="info-card-title">Contribute</span>
+        <span class="info-card-desc">Star, fork, or send a pull request — TextWizard is MIT-licensed.</span>
+        <span class="info-card-link">View the repo →</span>
+      </a>
+    </div>
+
+    <h2>Why no contact form?</h2>
+    <p>
+      A form would mean sending your message to a server. TextWizard has no backend by design —
+      nothing you type into the tools ever leaves your device — so we keep contact on GitHub rather
+      than routing mail through a third party. Prefer to keep it short? Open an issue and we'll
+      follow up there.
+    </p>
+  </main>
+</Base>
