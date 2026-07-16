@@ -1,0 +1,117 @@
+---
+import '../styles/global.css';
+
+const {
+  title,
+  description = 'Free online text and code tools: convert case, clean whitespace, format JSON, encode/decode Base64, hash, diff, generate QR codes, and more. Runs in your browser — nothing is uploaded.',
+  robots = 'index,follow',
+  ogType = 'website',
+} = Astro.props;
+
+const path = Astro.url.pathname;
+const canonicalPath = path !== '/' ? path.replace(/\/$/, '') : '/';
+const canonical = new URL(canonicalPath, Astro.site).href;
+const ogImage = new URL('/og-image.png', Astro.site).href;
+const repo = 'https://github.com/MichalAFerber/textwizard';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Michal Ferber" />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="TextWizard" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <script is:inline>
+      // Apply theme before render to prevent a flash of the wrong theme.
+      (function () {
+        try {
+          if (localStorage.getItem('tw::theme') === 'dark')
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } catch (_) {}
+      })();
+    </script>
+
+    <slot name="head" />
+
+    <!-- Plausible Analytics — privacy-friendly, cookieless, self-hosted.
+         Standard pageview tracking (the site is now multi-page, not hash-routed),
+         plus outbound-link, file-download, and tagged-event extensions. -->
+    <script
+      defer
+      data-domain="textwizard.us"
+      src="https://plausible.thompsonblack.us/js/script.outbound-links.file-downloads.tagged-events.js"
+    ></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container site-nav">
+        <a class="brand" href="/" aria-label="TextWizard home">
+          <span class="brand-icon">✨</span>
+          <span>TextWizard</span>
+        </a>
+        <div class="nav-spacer"></div>
+        <nav class="nav-links">
+          <a class="nav-link" href="/#tools">All tools</a>
+          <a class="nav-link" href="/privacy">Privacy</a>
+          <a class="nav-link" href={repo} target="_blank" rel="noopener">GitHub</a>
+        </nav>
+        <button
+          id="theme-toggle"
+          class="icon-btn theme-toggle"
+          type="button"
+          aria-label="Toggle theme"
+          title="Toggle dark mode"
+        >
+          <span class="theme-toggle-icon" data-icon-light>☾</span>
+          <span class="theme-toggle-icon" data-icon-dark>☀</span>
+        </button>
+      </div>
+    </header>
+
+    <slot />
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-links">
+          <a href="/">Home</a>
+          <a href="/privacy">Privacy</a>
+          <a href={repo} target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <div>Runs in your browser · nothing is uploaded · MIT licensed</div>
+      </div>
+    </footer>
+
+    <script>
+      // Theme toggle (persisted to localStorage). Present on every page.
+      const btn = document.getElementById('theme-toggle');
+      btn?.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('tw::theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('tw::theme', 'dark');
+        }
+      });
+    </script>
+  </body>
+</html>

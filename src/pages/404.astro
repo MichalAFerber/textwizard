@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Page not found — TextWizard" description="The page you were looking for doesn't exist." robots="noindex,follow">
+  <main class="container legal">
+    <h1>404 — Page not found</h1>
+    <p class="legal-meta">That page doesn't exist, or it may have moved.</p>
+    <p><a href="/" class="legal-back">← Back to TextWizard</a></p>
+    <p>Or jump to <a href="/#tools">all tools</a>.</p>
+  </main>
+</Base>
+
+<script is:inline>
+  // Record 404s as a Plausible custom event with the requested path.
+  window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  window.plausible('404', { props: { path: document.location.pathname } });
+</script>

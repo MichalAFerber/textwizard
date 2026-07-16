@@ -1,0 +1,18 @@
+{
+  "name": "textwizard",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Free online text & code tools that run entirely in your browser.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^4.16.18",
+    "unicode-emoji-json": "^0.9.0"
+  }
+}

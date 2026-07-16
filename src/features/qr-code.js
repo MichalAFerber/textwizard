@@ -1,12 +1,12 @@
 // QR code generator.
 //
-// Uses the vendored node-qrcode browser build (features/vendor/qrcode.min.js) —
+// Uses the vendored node-qrcode browser build (public/vendor/qrcode.min.js) —
 // the same library ipcow.com's "Send a Secret" QR uses — via QRCode.toCanvas,
 // then overlays an optional centered logo and offers a PNG download, mirroring
 // that implementation. The library is loaded lazily the first time this page is
 // opened so the other tools don't pay for it.
 
-const LIB_SRC = 'features/vendor/qrcode.min.js';
+const LIB_SRC = '/vendor/qrcode.min.js';
 const LOGO_SRC = '/favicon.svg';
 const STORAGE_KEY = 'tw::qr-code';
 
