@@ -57,6 +57,31 @@ Deployed from this repo via Cloudflare Pages. Set the project's build settings t
 - **Build command:** `npm run build`
 - **Build output directory:** `dist`
 
+## Contact form
+
+The Contact page (`/contact`) posts to a Cloudflare Pages Function
+(`functions/api/contact.js`) that relays the message to `support@textwizard.us`
+via the [ForwardEmail.net](https://forwardemail.net) HTTP API (Workers can't open
+raw SMTP sockets).
+
+The sending password is read from a secret and is **never** committed:
+
+```bash
+npx wrangler pages secret put FORWARDEMAIL_PASSWORD --project-name textwizard
+```
+
+Setup:
+
+- `noreply@textwizard.us` — a ForwardEmail alias with outbound sending enabled; its
+  password is the `FORWARDEMAIL_PASSWORD` secret.
+- `support@textwizard.us` — receives the mail.
+- Set the secret for **Production** and **Preview**, then redeploy.
+
+Until the secret is set, the endpoint returns a graceful "not configured" message
+and the page points people to GitHub. Bots are filtered with a honeypot field and
+the endpoint validates input and enforces a same-origin check; add Cloudflare
+Turnstile if you want stronger spam protection.
+
 ## License
 
 MIT.

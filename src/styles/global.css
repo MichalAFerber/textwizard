@@ -697,6 +697,22 @@ textarea.tw-textarea:focus {
 .info-card-desc { flex: 1 1 auto; font-size: 13.5px; color: var(--text-dim); line-height: 1.5; }
 .info-card-link { margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--accent); }
 
+/* Contact form */
+.contact-form { display: flex; flex-direction: column; gap: 14px; margin: 22px 0 10px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-label { font-size: 13px; font-weight: 550; color: var(--text); }
+.form-optional { color: var(--text-dim); font-weight: 400; }
+.contact-form .tw-input { width: 100%; font-size: 14px; }
+.contact-message { resize: vertical; min-height: 150px; line-height: 1.5; }
+.form-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.contact-status { margin: 0; font-size: 13.5px; }
+.contact-status.is-ok { color: var(--success); }
+.contact-status.is-err { color: var(--danger); }
+.form-note { margin: 2px 0 0; font-size: 12.5px; color: var(--text-dim); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+@media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+
 /* ---------- Emoji picker ---------- */
 .emoji-controls { margin-bottom: 18px; }
 #emoji-search { width: 100%; max-width: 440px; }
