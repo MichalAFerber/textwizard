@@ -68,6 +68,27 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error: 'Please add a little more detail to your message.' }, 400);
   }
 
+  // Cloudflare Turnstile — anti-spam. Only enforced when TURNSTILE_SECRET_KEY
+  // is set, so the form keeps working before the keys are configured.
+  if (env.TURNSTILE_SECRET_KEY) {
+    const token = String(data['cf-turnstile-response'] ?? '').trim().slice(0, 3000);
+    if (!token) return json({ ok: false, error: 'Please complete the anti-spam challenge.' }, 400);
+    const params = new URLSearchParams({ secret: env.TURNSTILE_SECRET_KEY, response: token });
+    const ip = request.headers.get('cf-connecting-ip');
+    if (ip) params.set('remoteip', ip);
+    try {
+      const vr = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        body: params,
+      });
+      const verdict = await vr.json();
+      if (!verdict.success) return json({ ok: false, error: 'Anti-spam check failed. Please try again.' }, 400);
+    } catch {
+      return json({ ok: false, error: 'Could not verify the anti-spam challenge. Please try again.' }, 502);
+    }
+  }
+
   const text =
     `New TextWizard contact message\n\n` +
     `Name:    ${name}\n` +
@@ -78,7 +99,7 @@ export async function onRequestPost({ request, env }) {
   const body = new URLSearchParams({
     from: `TextWizard Contact <${SENDER}>`,
     to: RECIPIENT,
-    replyTo: `${name} <${email}>`,
+    replyTo: SENDER,
     subject: `[TextWizard] ${subject || 'New contact message'}`,
     text,
   });

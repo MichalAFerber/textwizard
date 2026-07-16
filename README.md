@@ -78,9 +78,23 @@ Setup:
 - Set the secret for **Production** and **Preview**, then redeploy.
 
 Until the secret is set, the endpoint returns a graceful "not configured" message
-and the page points people to GitHub. Bots are filtered with a honeypot field and
-the endpoint validates input and enforces a same-origin check; add Cloudflare
-Turnstile if you want stronger spam protection.
+and the page points people to GitHub. Bots are filtered with a honeypot field, and
+the endpoint validates input and enforces a same-origin check.
+
+### Turnstile (anti-spam)
+
+The form also supports [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/).
+Create a Turnstile widget for `textwizard.us`, then set two variables (Production
+**and** Preview) and redeploy:
+
+- `PUBLIC_TURNSTILE_SITE_KEY` — the public site key, a **build** variable (Astro
+  reads it at build time to render the widget).
+- `TURNSTILE_SECRET_KEY` — the secret key, a **secret**
+  (`npx wrangler pages secret put TURNSTILE_SECRET_KEY --project-name textwizard`).
+
+Both must be set together. When they're absent the widget is omitted and the form
+still works (honeypot + validation only); when present, the Function verifies the
+token server-side before sending.
 
 ## License
 
