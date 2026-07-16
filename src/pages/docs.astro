@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import { tools } from '../data/tools.js';
+const title = 'Docs — TextWizard';
+const description =
+  'How TextWizard works: browser-based, offline-friendly tools, keyboard shortcuts, the full tool list, and how to use each one.';
+---
+<Base title={title} description={description}>
+  <main class="container legal">
+    <p><a href="/" class="legal-back">← Back to TextWizard</a></p>
+    <h1>Docs</h1>
+    <p class="legal-meta">Everything you need to get the most out of TextWizard.</p>
+
+    <h2>How it works</h2>
+    <p>
+      TextWizard is a set of small utilities that run <strong>entirely in your browser</strong>.
+      There's no backend, no upload, and no account — the text you paste or drop is processed
+      locally and saved only in your browser's local storage so it survives reloads. Once a tool
+      page has loaded, it keeps working even with no network.
+    </p>
+
+    <h2>Using a tool</h2>
+    <ul>
+      <li>Open a tool from the <a href="/#tools">home page</a> or via search.</li>
+      <li>Type, paste, or drag &amp; drop a file into the text area.</li>
+      <li>Click an action to transform the text. Use <strong>Copy</strong> to copy the result, <strong>Clear</strong> to reset, and <strong>Import file</strong> / <strong>Save file</strong> to move text in and out.</li>
+      <li><strong>Undo</strong> reverts the last button-driven change.</li>
+    </ul>
+
+    <h2>Keyboard shortcuts</h2>
+    <ul>
+      <li><code>/</code> or <code>⌘K</code> / <code>Ctrl+K</code> — open tool search from anywhere</li>
+      <li><code>↑</code> / <code>↓</code> then <code>Enter</code> — move through and open a search result</li>
+      <li><code>Esc</code> — close search</li>
+    </ul>
+
+    <h2>The tools</h2>
+    <p>
+      Every tool has its own page and its own source file (MIT-licensed) — click the GitHub icon on
+      any card to jump straight to its code.
+    </p>
+    <ul>
+      {tools.map((t) => (
+        <li><a href={`/tools/${t.id}`}>{t.name}</a> — {t.tagline}</li>
+      ))}
+    </ul>
+
+    <h2>Privacy</h2>
+    <p>
+      Nothing you enter is sent anywhere. The site sets no cookies; aggregate page views are counted
+      with self-hosted, cookieless Plausible. Details in the <a href="/privacy">Privacy Policy</a>.
+    </p>
+
+    <h2>Open source</h2>
+    <p>
+      TextWizard is built with <a href="https://astro.build" target="_blank" rel="noopener">Astro</a>
+      and released under the MIT License. Browse the code, file an issue, or send a pull request on
+      <a href="https://github.com/MichalAFerber/textwizard" target="_blank" rel="noopener">GitHub</a>.
+    </p>
+  </main>
+</Base>

@@ -7,7 +7,10 @@ export function GET() {
   const urls = [
     { loc: `${SITE}/`, changefreq: 'weekly', priority: '1.0' },
     ...tools.map((t) => ({ loc: `${SITE}/tools/${t.id}`, changefreq: 'monthly', priority: '0.8' })),
+    { loc: `${SITE}/docs`, changefreq: 'monthly', priority: '0.5' },
+    { loc: `${SITE}/contact`, changefreq: 'yearly', priority: '0.4' },
     { loc: `${SITE}/privacy`, changefreq: 'yearly', priority: '0.3' },
+    { loc: `${SITE}/terms`, changefreq: 'yearly', priority: '0.3' },
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
