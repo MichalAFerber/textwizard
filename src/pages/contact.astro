@@ -4,8 +4,14 @@ const title = 'Contact — TextWizard';
 const description =
   'Get in touch with the TextWizard project — send a message, or reach us on GitHub. Open source and privacy-first.';
 const repo = 'https://github.com/MichalAFerber/textwizard';
+// Public Turnstile site key (build-time env var). When absent, the widget and
+// its script are omitted and the form works without the challenge.
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
 <Base title={title} description={description}>
+  {turnstileSiteKey && (
+    <script slot="head" is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+  )}
   <main class="container legal">
     <p><a href="/" class="legal-back">← Back to TextWizard</a></p>
     <h1>Contact</h1>
@@ -40,6 +46,10 @@ const repo = 'https://github.com/MichalAFerber/textwizard';
       <div class="hp" aria-hidden="true">
         <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
       </div>
+
+      {turnstileSiteKey && (
+        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="auto"></div>
+      )}
 
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">Send message</button>
@@ -105,6 +115,7 @@ const repo = 'https://github.com/MichalAFerber/textwizard';
     } finally {
       btn.disabled = false;
       btn.textContent = label;
+      window.turnstile?.reset?.();
     }
   });
 </script>
