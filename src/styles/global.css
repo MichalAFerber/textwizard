@@ -526,6 +526,36 @@ textarea.tw-textarea:focus {
 .legal ul { padding-left: 22px; }
 .legal li { margin: 4px 0; }
 
+/* ---------- Emoji picker ---------- */
+.emoji-controls { margin-bottom: 18px; }
+#emoji-search { width: 100%; max-width: 440px; }
+.emoji-group[hidden] { display: none; }
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+  gap: 4px;
+  margin: 0 0 20px;
+}
+.emoji-btn {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  line-height: 1;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.1s ease, border-color 0.1s ease, transform 0.05s ease;
+}
+.emoji-btn:hover { background: var(--surface-2); border-color: var(--border); }
+.emoji-btn:active { transform: scale(0.88); }
+.emoji-btn.is-copied { background: var(--accent-soft); border-color: var(--accent); }
+.emoji-btn[hidden] { display: none; }
+.emoji-empty { color: var(--text-dim); }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 760px) {
   .nav-links .nav-link { display: none; }

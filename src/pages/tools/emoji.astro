@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import groups from 'unicode-emoji-json/data-by-group.json';
+import { toolsById } from '../../data/tools.js';
+
+const tool = toolsById['emoji'];
+const title = `${tool.name} — TextWizard`;
+const total = groups.reduce((n, g) => n + g.emojis.length, 0);
+---
+<Base title={title} description={tool.description}>
+  <main class="container tool-page">
+    <nav class="breadcrumb"><a href="/">TextWizard</a> &nbsp;/&nbsp; {tool.name}</nav>
+    <header class="page-header">
+      <h1 class="page-title">{tool.name}</h1>
+      <p class="page-subtitle">{tool.tagline}</p>
+    </header>
+
+    <div class="emoji-controls">
+      <input
+        type="search"
+        id="emoji-search"
+        class="tw-input"
+        placeholder={`Search ${total.toLocaleString()} emoji by name…`}
+        autocomplete="off"
+        aria-label="Search emoji by name"
+      />
+    </div>
+
+    <div id="emoji-root">
+      {groups.map((group) => (
+        <section class="emoji-group" data-group>
+          <h2 class="section-title">{group.name}</h2>
+          <div class="emoji-grid">
+            {group.emojis.map((e) => (
+              <button type="button" class="emoji-btn" data-name={e.name} title={e.name}>{e.emoji}</button>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <p class="emoji-empty" id="emoji-empty" hidden>No emoji match your search.</p>
+  </main>
+</Base>
+
+<script>
+  import { setupToast } from '../../scripts/globals.js';
+
+  setupToast();
+  const root = document.getElementById('emoji-root');
+  const search = document.getElementById('emoji-search');
+  const empty = document.getElementById('emoji-empty');
+
+  // Click any emoji to copy it (event delegation over the whole grid).
+  root.addEventListener('click', async (event) => {
+    const btn = event.target.closest('.emoji-btn');
+    if (!btn) return;
+    const emoji = btn.textContent;
+    try {
+      await navigator.clipboard.writeText(emoji);
+      window.tw.toast(`Copied ${emoji}`);
+      btn.classList.add('is-copied');
+      setTimeout(() => btn.classList.remove('is-copied'), 450);
+    } catch {
+      window.tw.toast('Copy failed — your browser blocked clipboard access');
+    }
+  });
+
+  // Filter emoji by name.
+  let debounce = null;
+  search.addEventListener('input', () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      const q = search.value.trim().toLowerCase();
+      let anyVisible = false;
+      for (const group of root.querySelectorAll('[data-group]')) {
+        let groupVisible = false;
+        for (const btn of group.querySelectorAll('.emoji-btn')) {
+          const match = !q || btn.dataset.name.includes(q);
+          btn.hidden = !match;
+          if (match) groupVisible = true;
+        }
+        group.hidden = !groupVisible;
+        if (groupVisible) anyVisible = true;
+      }
+      empty.hidden = anyVisible;
+    }, 80);
+  });
+</script>

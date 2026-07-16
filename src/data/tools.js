@@ -85,6 +85,16 @@ export const tools = [
     description: 'Generate a QR code from any URL or text, with an optional centered logo, and download it as a PNG — all in your browser.',
     keywords: ['qr code generator', 'qr code from url', 'download qr code', 'qr png'],
   },
+  {
+    id: 'emoji',
+    name: 'Emoji Copy',
+    icon: '😀',
+    category: 'Text',
+    standalone: true,
+    tagline: 'Click any emoji to copy it to your clipboard.',
+    description: 'Browse every Unicode emoji by category and click to copy — search by name, no hunting through a keyboard.',
+    keywords: ['emoji picker', 'copy emoji', 'emoji list', 'emoji keyboard', 'unicode emoji'],
+  },
 ];
 
 // Category display order for the landing page.

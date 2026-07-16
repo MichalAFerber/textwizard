@@ -3,7 +3,10 @@ import Base from '../../layouts/Base.astro';
 import { tools } from '../../data/tools.js';
 
 export function getStaticPaths() {
-  return tools.map((tool) => ({ params: { id: tool.id }, props: { tool } }));
+  // `standalone` tools (e.g. Emoji Copy) have their own dedicated page.
+  return tools
+    .filter((tool) => !tool.standalone)
+    .map((tool) => ({ params: { id: tool.id }, props: { tool } }));
 }
 
 const { tool } = Astro.props;
