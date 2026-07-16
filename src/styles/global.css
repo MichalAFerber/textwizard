@@ -497,21 +497,46 @@ textarea.tw-textarea:focus {
 /* ---------- Footer ---------- */
 .site-footer {
   border-top: 1px solid var(--border);
-  margin-top: 40px;
-  padding: 24px 0;
+  margin-top: 48px;
+  padding: 40px 0 26px;
   color: var(--text-dim);
+  font-size: 14px;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px 40px;
+  padding-bottom: 28px;
+}
+.footer-brand { max-width: 440px; }
+.footer-brand .brand { margin-bottom: 14px; }
+.footer-tagline { margin: 0 0 16px; color: var(--text-dim); line-height: 1.6; }
+.footer-github { display: inline-flex; color: var(--text-dim); transition: color 0.12s ease; }
+.footer-github:hover { color: var(--text); }
+.footer-col { display: flex; flex-direction: column; gap: 10px; }
+.footer-heading {
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 2px 0 4px;
+}
+.footer-col a { color: var(--text-dim); text-decoration: none; }
+.footer-col a:hover { color: var(--text); }
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 22px;
+  text-align: center;
   font-size: 13px;
+  color: var(--text-dim);
 }
-.site-footer .container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-  align-items: center;
-  justify-content: space-between;
+.footer-bottom a { color: var(--text-dim); text-decoration: none; }
+.footer-bottom a:hover { color: var(--text); }
+@media (max-width: 640px) {
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .footer-brand { grid-column: 1 / -1; }
 }
-.footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
-.footer-links a { color: var(--text-dim); text-decoration: none; }
-.footer-links a:hover { color: var(--text); }
 
 /* ---------- Legal pages ---------- */
 .legal { max-width: 720px; margin: 24px auto 0; color: var(--text); font-size: 15px; line-height: 1.65; }
