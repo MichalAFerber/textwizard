@@ -6,10 +6,11 @@ import { analyzers } from './features/analyzers.js';
 import { diff } from './features/diff.js';
 import { fancyText } from './features/fancy-text.js';
 import { generators } from './features/generators.js';
+import { qrCode } from './features/qr-code.js';
 
 // Register features here. To add a new feature: write a module that exports
 // { id, title, subtitle, navLabel, navIcon, render(container) } and add it below.
-const features = [caseConverter, textTools, codeData, translators, analyzers, diff, fancyText, generators];
+const features = [caseConverter, textTools, codeData, translators, analyzers, diff, fancyText, generators, qrCode];
 
 const nav = document.getElementById('nav');
 const main = document.getElementById('main');
