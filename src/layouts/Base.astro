@@ -8,8 +8,14 @@ const {
   ogType = 'website',
 } = Astro.props;
 
-const path = Astro.url.pathname;
-const canonicalPath = path !== '/' ? path.replace(/\/$/, '') : '/';
+// Canonical URL matching the clean URL Cloudflare Pages serves: strip the
+// `.html` the 'file' build format adds (otherwise the canonical points at a
+// URL that 308-redirects to the clean one), collapse `/index`, and drop any
+// trailing slash except root.
+let canonicalPath = Astro.url.pathname.replace(/\.html$/, '');
+if (canonicalPath.endsWith('/index')) canonicalPath = canonicalPath.slice(0, -'index'.length);
+if (canonicalPath !== '/') canonicalPath = canonicalPath.replace(/\/$/, '');
+if (canonicalPath === '') canonicalPath = '/';
 const canonical = new URL(canonicalPath, Astro.site).href;
 const ogImage = new URL('/og-image.png', Astro.site).href;
 const repo = 'https://github.com/MichalAFerber/textwizard';
