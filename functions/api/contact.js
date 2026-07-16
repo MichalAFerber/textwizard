@@ -22,10 +22,19 @@ const json = (obj, status = 200) =>
 const clean = (v, max) => String(v ?? '').replace(/[\r\n]+/g, ' ').trim().slice(0, max);
 
 export async function onRequestPost({ request, env }) {
-  // Same-origin guard: only accept posts from our own hosts.
+  // Same-origin guard: only accept posts from our own hosts — production and
+  // this project's *.pages.dev preview deployments (whose subdomains contain a
+  // dot, e.g. <hash>.textwizard-ekg.pages.dev).
   const origin = request.headers.get('origin');
-  if (origin && !/^https:\/\/(www\.)?textwizard\.us$/.test(origin) && !/^https:\/\/[a-z0-9-]+\.pages\.dev$/.test(origin)) {
-    return json({ ok: false, error: 'Request blocked.' }, 403);
+  if (origin) {
+    let host = '';
+    try { host = new URL(origin).host; } catch { /* malformed */ }
+    const allowed =
+      host === 'textwizard.us' ||
+      host === 'www.textwizard.us' ||
+      host === 'textwizard-ekg.pages.dev' ||
+      host.endsWith('.textwizard-ekg.pages.dev');
+    if (!allowed) return json({ ok: false, error: 'Request blocked.' }, 403);
   }
 
   if (!env.FORWARDEMAIL_PASSWORD) {
