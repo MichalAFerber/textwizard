@@ -3,3 +3,7 @@ node_modules/
 .vscode/
 .idea/
 *.log
+
+# Astro build output
+dist/
+.astro/

@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import { tools, categories } from '../data/tools.js';
+
+const title = 'TextWizard — Free Online Text & Code Tools';
+const groups = categories
+  .map((category) => ({ category, items: tools.filter((t) => t.category === category) }))
+  .filter((g) => g.items.length);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'TextWizard',
+  url: 'https://textwizard.us/',
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Any',
+  browserRequirements: 'Requires a modern browser',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description: 'Free online text and code tools that run entirely in the browser.',
+};
+---
+<Base title={title}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)}></script>
+
+  <main class="container">
+    <section class="hero">
+      <h1 class="hero-title">Every text &amp; code tool, <span class="accent">right in your browser</span></h1>
+      <p class="hero-sub">
+        A privacy-first collection of fast text and code utilities. Paste or drop text and
+        transform it instantly — no uploads, no accounts, nothing ever leaves your device.
+      </p>
+      <div class="badges">
+        <span class="badge"><span class="badge-dot"></span> Runs in your browser</span>
+        <span class="badge"><span class="badge-dot"></span> Nothing is uploaded</span>
+        <span class="badge"><span class="badge-dot"></span> Open source · MIT</span>
+      </div>
+    </section>
+
+    <section id="tools" class="tool-section">
+      {groups.map(({ category, items }) => (
+        <>
+          <h2 class="section-title">{category}</h2>
+          <div class="tool-grid">
+            {items.map((tool) => (
+              <a class="tool-card" href={`/tools/${tool.id}`}>
+                <span class="tool-card-icon" aria-hidden="true">{tool.icon}</span>
+                <span class="tool-card-title">{tool.name}</span>
+                <span class="tool-card-desc">{tool.description}</span>
+                <span class="tool-card-cta">Open →</span>
+              </a>
+            ))}
+          </div>
+        </>
+      ))}
+    </section>
+  </main>
+</Base>

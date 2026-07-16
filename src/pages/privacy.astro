@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+const title = 'Privacy Policy — TextWizard';
+const description =
+  "TextWizard's privacy policy. Everything runs in your browser — we don't collect or store your text. Hosting is Cloudflare; analytics is cookieless, self-hosted Plausible.";
+---
+<Base title={title} description={description}>
+  <main class="container legal">
+    <p><a href="/" class="legal-back">← Back to TextWizard</a></p>
+    <h1>Privacy Policy</h1>
+    <p class="legal-meta">Last updated: 2026-07-16</p>
+
+    <h2>The short version</h2>
+    <p>
+      TextWizard runs entirely in your browser. The text you type or paste is
+      <strong>never sent to a server</strong> — it lives only in your browser's local
+      storage so your work persists between visits. There are no user accounts, no logins,
+      and no tracking of what you actually transform with the tools.
+    </p>
+
+    <h2>Data we (and our providers) handle</h2>
+
+    <h3>1. Hosting — Cloudflare</h3>
+    <p>
+      This site is served by Cloudflare. When you visit any page, Cloudflare receives
+      standard web request metadata (your IP address, browser user-agent, requested URL,
+      timestamp) to deliver the page and protect against abuse. We don't access these logs
+      directly; they are governed by
+      <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener" target="_blank">Cloudflare's privacy policy</a>.
+    </p>
+
+    <h3>2. Traffic measurement — Plausible Analytics</h3>
+    <p>
+      We use <a href="https://plausible.io/privacy-focused-web-analytics" rel="noopener" target="_blank">Plausible Analytics</a>,
+      a privacy-friendly, <strong>cookieless</strong> analytics tool that we <strong>self-host</strong>.
+      It counts page views and basic, aggregate visit metadata (such as referrer, and rough
+      device/country derived from your IP) so we can understand which tools are used. It
+      <strong>does not use cookies</strong>, does not create persistent identifiers, does not
+      track you across sites, and does not collect any personal data. Your IP address is used
+      only transiently to generate aggregate counts and is never stored against you. We never
+      see the content of your textarea — only that a page was viewed.
+    </p>
+
+    <h3>3. Browser local storage</h3>
+    <p>
+      TextWizard saves a few things in your browser's <code>localStorage</code> so the app
+      works the way you'd expect:
+    </p>
+    <ul>
+      <li>The current text in each tool's textarea (so it survives reloads).</li>
+      <li>Your light/dark theme choice.</li>
+      <li>Your last-used filename and extension when saving.</li>
+    </ul>
+    <p>
+      This data <strong>never leaves your device</strong>. You can clear it anytime via your
+      browser's site-data controls, or with the <em>Clear</em> button on each tool.
+    </p>
+
+    <h2>What we don't do</h2>
+    <ul>
+      <li>We don't have user accounts or logins.</li>
+      <li>We don't send your text or files to any server.</li>
+      <li>We don't sell, share, or rent any data.</li>
+      <li>We don't set advertising cookies, retargeting pixels, or fingerprinting.</li>
+    </ul>
+
+    <h2>Cookies</h2>
+    <p>
+      TextWizard sets <strong>no cookies</strong>. Our analytics (Plausible) is cookieless.
+      Cloudflare may set a security cookie (<code>__cf_bm</code>) to distinguish humans from
+      bots as part of serving and protecting the site.
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      TextWizard is a general-purpose utility and is not directed at children under 13. We do
+      not knowingly collect personal information from children.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      If this policy changes, the "Last updated" date at the top will change and the revised
+      policy will be posted at this URL.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions or concerns? Open an issue at
+      <a href="https://github.com/MichalAFerber/textwizard/issues" rel="noopener" target="_blank">github.com/MichalAFerber/textwizard</a>.
+    </p>
+  </main>
+</Base>

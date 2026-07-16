@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import { tools } from '../../data/tools.js';
+
+export function getStaticPaths() {
+  return tools.map((tool) => ({ params: { id: tool.id }, props: { tool } }));
+}
+
+const { tool } = Astro.props;
+const title = `${tool.name} — TextWizard`;
+---
+<Base title={title} description={tool.description}>
+  <main class="container tool-page">
+    <nav class="breadcrumb"><a href="/">TextWizard</a> &nbsp;/&nbsp; {tool.name}</nav>
+    <header class="page-header">
+      <h1 class="page-title">{tool.name}</h1>
+      <p class="page-subtitle">{tool.tagline}</p>
+    </header>
+    <div class="tool-actions" id="tool-actions"></div>
+    <div id="feature-root" data-tool={tool.id}></div>
+  </main>
+</Base>
+
+<script>
+  import { mountTool } from '../../scripts/tool-mount.js';
+  mountTool();
+</script>
