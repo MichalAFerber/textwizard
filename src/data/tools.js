@@ -80,9 +80,9 @@ export const tools = [
     icon: '⚄',
     color: '#22c55e',
     category: 'Generate',
-    tagline: 'UUIDs, passwords, numbers, dates, colors, and filler text.',
-    description: 'Generate UUIDs, secure passwords, random numbers, letters, months and dates, IPs, hex colors, Lorem ipsum, and random picks from your lines.',
-    keywords: ['uuid generator', 'password generator', 'random number', 'lorem ipsum', 'random hex color'],
+    tagline: 'UUIDs, passwords, Base64, phone numbers, colors, dates, and sample data.',
+    description: 'Generate UUIDs, secure passwords, Base64, phone numbers, random numbers, dates, IPs, hex colors, Lorem ipsum, sample JSON/XML/CSV/Markdown tables, and random picks from your lines.',
+    keywords: ['uuid generator', 'password generator', 'base64 generator', 'phone number generator', 'random number', 'lorem ipsum', 'sample json', 'markdown table generator'],
   },
   {
     id: 'qr-code',
