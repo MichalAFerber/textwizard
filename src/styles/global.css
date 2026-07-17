@@ -402,14 +402,12 @@ main { flex: 1 1 auto; }
 }
 .textarea-wrap {
   position: relative;
-  flex: 1 1 auto;
-  min-height: 340px;
   display: flex;
 }
 textarea.tw-textarea {
   width: 100%;
   flex: 1 1 auto;
-  resize: none;
+  resize: vertical;
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--border);
@@ -428,6 +426,15 @@ textarea.tw-textarea::placeholder { color: var(--text-dim); opacity: 0.7; }
 textarea.tw-textarea:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
+}
+/* Editor textareas (main tools + QR) get a definite height so the resize handle
+   drags cleanly both ways — the wrap hugs the textarea, so the toolbar tracks it
+   with no gap. Diff panes are excluded and keep filling their box. */
+.editor > textarea.tw-textarea,
+.textarea-wrap textarea.tw-textarea {
+  flex: 0 0 auto;
+  height: 56dvh;
+  min-height: 300px;
 }
 .textarea-wrap.is-drag-over textarea.tw-textarea {
   border-color: var(--accent);
@@ -520,7 +527,7 @@ textarea.tw-textarea:focus {
 .diff-panes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1 1 auto; min-height: 240px; }
 .diff-pane { display: flex; flex-direction: column; min-height: 0; }
 .diff-pane-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-.diff-pane textarea { flex: 1 1 auto; min-height: 0; }
+.diff-pane textarea { flex: 1 1 auto; min-height: 0; resize: none; }
 .diff-toolbar { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .diff-output {
   background: var(--surface);
@@ -790,7 +797,8 @@ textarea.tw-textarea:focus {
   .nav-links .nav-link { display: none; }
   .hero { padding: 40px 0 28px; }
   .diff-panes { grid-template-columns: 1fr; }
-  .textarea-wrap { min-height: 44dvh; }
+  .editor > textarea.tw-textarea,
+  .textarea-wrap textarea.tw-textarea { height: 46dvh; min-height: 220px; }
 }
 
 /* ---------- Accessibility (§14) ---------- */
