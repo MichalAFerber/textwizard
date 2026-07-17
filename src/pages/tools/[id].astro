@@ -11,8 +11,22 @@ export function getStaticPaths() {
 
 const { tool } = Astro.props;
 const title = `${tool.name} — TextWizard`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `${tool.name} — TextWizard`,
+  url: `https://textwizard.us/tools/${tool.id}`,
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Any',
+  browserRequirements: 'Requires a modern browser',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description: tool.description,
+  isPartOf: { '@type': 'WebSite', name: 'TextWizard', url: 'https://textwizard.us/' },
+};
 ---
 <Base title={title} description={tool.description}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)}></script>
   <main class="container tool-page">
     <nav class="breadcrumb"><a href="/">TextWizard</a> &nbsp;/&nbsp; {tool.name}</nav>
     <header class="page-header">

@@ -11,4 +11,9 @@ export default defineConfig({
   site: 'https://textwizard.us',
   trailingSlash: 'never',
   build: { format: 'file' },
+  // Emit every asset (incl. the self-hosted JetBrains Mono woff2 subsets) as a
+  // file served from our own origin rather than inlining small ones as data:
+  // URIs. Keeps the CSP `font-src 'self'` (no `data:`) and makes fonts
+  // cacheable under the immutable `/_astro/*` header.
+  vite: { build: { assetsInlineLimit: 0 } },
 });

@@ -20,14 +20,18 @@ if (canonicalPath.endsWith('/index')) canonicalPath = canonicalPath.slice(0, -'i
 if (canonicalPath !== '/') canonicalPath = canonicalPath.replace(/\/$/, '');
 if (canonicalPath === '') canonicalPath = '/';
 const canonical = new URL(canonicalPath, Astro.site).href;
-const ogImage = new URL('/og-image.png', Astro.site).href;
+const ogImage = new URL('/og.png', Astro.site).href;
 const repo = 'https://github.com/MichalAFerber/textwizard';
+const year = new Date().getFullYear();
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#eef4f6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Michal Ferber" />
@@ -40,20 +44,28 @@ const repo = 'https://github.com/MichalAFerber/textwizard';
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="TextWizard — free text & code tools that run in your browser" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@michalaferber" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <script is:inline>
-      // Apply theme before render to prevent a flash of the wrong theme.
+      // Apply the saved theme before first paint to avoid a flash. With no saved
+      // choice we set no attribute and let CSS `prefers-color-scheme` decide.
       (function () {
         try {
-          if (localStorage.getItem('tw::theme') === 'dark')
-            document.documentElement.setAttribute('data-theme', 'dark');
+          var t = localStorage.getItem('tw::theme');
+          if (t === 'dark' || t === 'light')
+            document.documentElement.setAttribute('data-theme', t);
         } catch (_) {}
       })();
     </script>
@@ -70,6 +82,7 @@ const repo = 'https://github.com/MichalAFerber/textwizard';
     ></script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <div class="container site-nav">
         <a class="brand" href="/" aria-label="TextWizard home">
@@ -91,7 +104,8 @@ const repo = 'https://github.com/MichalAFerber/textwizard';
           id="theme-toggle"
           class="icon-btn theme-toggle"
           type="button"
-          aria-label="Toggle theme"
+          aria-label="Toggle dark mode"
+          aria-pressed="false"
           title="Toggle dark mode"
         >
           <span class="theme-toggle-icon" data-icon-light>☾</span>
@@ -100,7 +114,9 @@ const repo = 'https://github.com/MichalAFerber/textwizard';
       </div>
     </header>
 
-    <slot />
+    <div id="main-content" class="page-main" tabindex="-1">
+      <slot />
+    </div>
 
     <footer class="site-footer">
       <div class="container">
@@ -135,24 +151,37 @@ const repo = 'https://github.com/MichalAFerber/textwizard';
             <a href="/terms">Terms</a>
           </nav>
         </div>
-        <div class="footer-bottom">© 2026 | Created with ❤️ by <a href="https://michalferber.dev/" target="_blank" rel="noopener">Michal Ferber</a>, aka <a href="https://techguywithabeard.com/" target="_blank" rel="noopener">TechGuyWithABeard</a>.</div>
+        <div class="footer-bottom">© {year} | Created with ❤️ by <a href="https://michalferber.dev/" target="_blank" rel="noopener">Michal Ferber</a>, aka <a href="https://techguywithabeard.com/" target="_blank" rel="noopener">TechGuyWithABeard</a>.</div>
       </div>
     </footer>
 
     <Search />
 
     <script>
-      // Theme toggle (persisted to localStorage). Present on every page.
+      // Theme toggle. The default follows the OS via CSS `prefers-color-scheme`;
+      // the button sets an explicit `data-theme` override and persists the choice.
+      const root = document.documentElement;
       const btn = document.getElementById('theme-toggle');
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      const isDark = () => {
+        const attr = root.getAttribute('data-theme');
+        if (attr === 'dark') return true;
+        if (attr === 'light') return false;
+        return mq.matches;
+      };
+      const sync = () => btn?.setAttribute('aria-pressed', String(isDark()));
+      sync();
       btn?.addEventListener('click', () => {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        if (isDark) {
-          document.documentElement.removeAttribute('data-theme');
-          localStorage.setItem('tw::theme', 'light');
-        } else {
-          document.documentElement.setAttribute('data-theme', 'dark');
-          localStorage.setItem('tw::theme', 'dark');
-        }
+        const next = isDark() ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('tw::theme', next); } catch (_) {}
+        sync();
+      });
+      // Keep the toggle state in step with the OS while on the system default.
+      mq.addEventListener?.('change', () => {
+        let saved = null;
+        try { saved = localStorage.getItem('tw::theme'); } catch (_) {}
+        if (saved !== 'dark' && saved !== 'light') sync();
       });
     </script>
   </body>

@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   --bg: #eef4f6;
   --surface: #ffffff;
   --surface-2: #f1f5f7;
@@ -22,7 +23,11 @@
   --nav-h: 60px;
 }
 
+/* Dark palette. Applied two ways: (1) an explicit toggle override via
+   [data-theme="dark"], and (2) the system default via prefers-color-scheme
+   when the user hasn't forced light. The token list is kept identical. */
 [data-theme="dark"] {
+  color-scheme: dark;
   --bg: #0b1220;
   --surface: #131a2a;
   --surface-2: #1c2438;
@@ -41,6 +46,30 @@
   --diff-del-color: #fca5a5;
   --diff-del-bg: rgba(248, 113, 113, 0.16);
   --backdrop: rgba(0, 0, 0, 0.55);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0b1220;
+    --surface: #131a2a;
+    --surface-2: #1c2438;
+    --border: #2a3450;
+    --border-strong: #3d4a6a;
+    --text: #e7eaf3;
+    --text-dim: #93a0bf;
+    --accent: #818cf8;
+    --accent-hover: #a5b4fc;
+    --accent-soft: rgba(129, 140, 248, 0.16);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.40);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.50);
+    --diff-add-color: #6ee7b7;
+    --diff-add-bg: rgba(16, 185, 129, 0.18);
+    --diff-del-color: #fca5a5;
+    --diff-del-bg: rgba(248, 113, 113, 0.16);
+    --backdrop: rgba(0, 0, 0, 0.55);
+  }
 }
 
 * { box-sizing: border-box; }
@@ -64,9 +93,11 @@ a { color: var(--accent); }
 
 .container {
   width: 100%;
-  max-width: 1120px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 24px;
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
 }
 
 /* ---------- Top navigation ---------- */
@@ -77,6 +108,7 @@ a { color: var(--accent); }
   background: color-mix(in srgb, var(--surface) 86%, transparent);
   backdrop-filter: saturate(1.4) blur(8px);
   border-bottom: 1px solid var(--border);
+  padding-top: env(safe-area-inset-top);
 }
 
 .site-nav {
@@ -141,6 +173,10 @@ a { color: var(--accent); }
 
 .theme-toggle-icon { display: none; }
 .theme-toggle [data-icon-light] { display: inline; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle [data-icon-light] { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle [data-icon-dark] { display: inline; }
+}
 [data-theme="dark"] .theme-toggle [data-icon-light] { display: none; }
 [data-theme="dark"] .theme-toggle [data-icon-dark] { display: inline; }
 
@@ -223,11 +259,16 @@ main { flex: 1 1 auto; }
   color: var(--text-dim);
   margin: 30px 0 14px;
 }
+/* Mobile-first tiers (§3): 1 col <680px, 2 cols <980px, 3 cols to 1400px,
+   4 cols on wide desktops. Widened with min-width queries. */
 .tool-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 18px;
 }
+@media (min-width: 680px) { .tool-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 980px) { .tool-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1300px) { .tool-grid { grid-template-columns: repeat(4, 1fr); } }
 .tool-card {
   position: relative;
   display: flex;
@@ -323,7 +364,7 @@ main { flex: 1 1 auto; }
   padding: 22px 0 40px;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - var(--nav-h));
+  min-height: calc(100dvh - var(--nav-h));
 }
 .breadcrumb {
   font-size: 13px;
@@ -598,8 +639,8 @@ textarea.tw-textarea:focus {
 /* ---------- Toast ---------- */
 .toast {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  right: calc(20px + env(safe-area-inset-right));
   background: var(--surface);
   border: 1px solid var(--border);
   border-left: 3px solid var(--accent);
@@ -749,5 +790,62 @@ textarea.tw-textarea:focus {
   .nav-links .nav-link { display: none; }
   .hero { padding: 40px 0 28px; }
   .diff-panes { grid-template-columns: 1fr; }
-  .textarea-wrap { min-height: 44vh; }
+  .textarea-wrap { min-height: 44dvh; }
+}
+
+/* ---------- Accessibility (§14) ---------- */
+
+/* Sticky-footer shell: the wrapper holding the page <main> grows to fill. */
+.page-main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.page-main:focus { outline: none; }
+
+/* Skip link — visible only on keyboard focus. */
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -100px;
+  z-index: 200;
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+  transition: top 0.15s ease;
+}
+.skip-link:focus { top: calc(12px + env(safe-area-inset-top)); }
+
+/* Focus-visible rings on everything interactive. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+/* Kill the platform tap-highlight flash; we provide our own focus/active states. */
+a, button, input, textarea, select, [tabindex] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch targets ≥40px on coarse pointers, without changing desktop density. */
+@media (pointer: coarse) {
+  .icon-btn { width: 40px; height: 40px; }
+  .btn { min-height: 40px; }
+  .nav-link { padding-top: 10px; padding-bottom: 10px; }
+  .tool-card-gh { width: 40px; height: 40px; }
+  .footer-col a, .footer-bottom a { padding: 4px 0; }
+}
+
+/* Honor reduced-motion: drop transitions/animations. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

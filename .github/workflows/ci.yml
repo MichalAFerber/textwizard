@@ -1,0 +1,51 @@
+name: CI
+
+# Lint + build on every PR, and on pushes to main. Cloudflare Pages handles the
+# actual deploy from `main` via its GitHub integration, so this workflow is the
+# correctness gate: it builds the site, checks the required §11 plumbing files
+# are present, and runs the headless-Chromium harness under the real _headers CSP.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify site plumbing (§10–§11 sidecars present in build output)
+        run: |
+          missing=0
+          for f in _headers og.png apple-touch-icon.png favicon.ico favicon.svg \
+                   site.webmanifest robots.txt sitemap.xml ads.txt llms.txt \
+                   .well-known/security.txt 404.html; do
+            if [ ! -f "dist/$f" ]; then echo "::error::missing dist/$f"; missing=1; fi
+          done
+          if [ "$missing" -ne 0 ]; then exit 1; fi
+          echo "All required plumbing files present."
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Headless-Chromium harness under the real CSP (§15)
+        run: npm run test:csp

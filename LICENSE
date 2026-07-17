@@ -19,3 +19,42 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+================================================================================
+THIRD-PARTY COMPONENTS
+================================================================================
+
+This project bundles or inlines the following third-party components. Their
+licenses apply to the respective portions of the built output.
+
+--------------------------------------------------------------------------------
+Astro — v4.16.19 — MIT License
+Copyright (c) 2021 Fred K. Schott and the Astro contributors
+https://github.com/withastro/astro
+--------------------------------------------------------------------------------
+node-qrcode (qrcode) — v1.4.4 — MIT License
+Copyright (c) 2012 Ryan Day and contributors
+https://github.com/soldair/node-qrcode
+Vendored UMD browser build served from /vendor/qrcode.min.js.
+--------------------------------------------------------------------------------
+unicode-emoji-json — v0.9.0 — MIT License
+Copyright (c) Muan and contributors
+https://github.com/muan/unicode-emoji-json
+Emoji dataset baked into the Emoji Copy tool at build time.
+--------------------------------------------------------------------------------
+JetBrains Mono — SIL Open Font License 1.1
+Copyright (c) 2020 The JetBrains Mono Project Authors
+(https://github.com/JetBrains/JetBrainsMono)
+Packaged via @fontsource/jetbrains-mono v5.2.8 (packaging MIT); the font files
+themselves are licensed under the SIL Open Font License, Version 1.1. Self-hosted
+woff2 files are served from the site's own domain. Full license:
+https://openfontlicense.org
+--------------------------------------------------------------------------------
+GitHub mark — © GitHub, Inc.
+The inlined Octocat/GitHub SVG mark is a trademark of GitHub, Inc., used solely
+to link to the project's source repository, per GitHub's logo usage guidelines.
+--------------------------------------------------------------------------------
+
+The MIT License text for the MIT-licensed components above is identical to the
+license granted to this project (reproduced at the top of this file), with
+copyright held by the respective authors named in each notice.
