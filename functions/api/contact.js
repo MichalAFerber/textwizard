@@ -21,6 +21,16 @@ const json = (obj, status = 200) =>
 // Collapse newlines (header-injection guard) and clamp length.
 const clean = (v, max) => String(v ?? '').replace(/[\r\n]+/g, ' ').trim().slice(0, max);
 
+// HTML-escape a user-supplied value before it touches the HTML email body
+// (email clients render the markup).
+const esc = (v) =>
+  String(v ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
 export async function onRequestPost({ request, env }) {
   // Same-origin guard: only accept posts from our own hosts — production and
   // this project's *.pages.dev preview deployments (whose subdomains contain a
@@ -89,16 +99,26 @@ export async function onRequestPost({ request, env }) {
     }
   }
 
+  // Plain-text alternative (tab after each label, blank line before the message).
   const text =
-    `Name:    ${name}\n` +
-    `Email:   ${email}\n\n` +
+    `Name:\t${name}\n` +
+    `Email:\t${email}\n\n` +
     `${message}\n`;
+
+  // HTML body — white-space:pre keeps the tabs/blank line; every user-supplied
+  // value is HTML-escaped since the recipient's client renders this markup.
+  const html =
+    `<div style="white-space:pre; font-family:system-ui, sans-serif;">` +
+    `Name:\t${esc(name)}\n` +
+    `Email:\t${esc(email)}\n\n` +
+    `${esc(message)}</div>`;
 
   const body = new URLSearchParams({
     from: `TextWizard <${SENDER}>`,
     to: RECIPIENT,
-    replyTo: SENDER,
-    subject: `[TextWizard] ${subject || 'New contact message'}`,
+    replyTo: email,
+    subject: `TextWizard⎯${subject || 'New contact message'}`,
+    html,
     text,
   });
 
