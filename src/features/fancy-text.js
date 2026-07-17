@@ -257,11 +257,19 @@ export const fancyText = {
   subtitle: 'Restyle text with Unicode: bold, script, circled, upside down, and more.',
   actions: ACTIONS,
   render(container) {
-    return createEditor({
+    // Each style outputs non-ASCII characters, so restyling an already-styled
+    // result is a no-op. We keep the plain `source` text and always transform
+    // *that*, so you can click through every style and see each applied to your
+    // original text (not stack onto the previous style).
+    const SRC_KEY = 'tw::fancy-text::source';
+    let source = '';
+    try { source = localStorage.getItem(SRC_KEY) || ''; } catch {}
+    const persistSource = (v) => { source = v; try { localStorage.setItem(SRC_KEY, v); } catch {} };
+
+    const editor = createEditor({
       container,
       storageKey: 'tw::fancy-text',
       placeholderText: PLACEHOLDER,
-      buttons: ACTIONS,
       toolbarLeft: [
         {
           label: 'Copy',
@@ -273,8 +281,20 @@ export const fancyText = {
         },
       ],
       toolbarRight: [
-        { label: 'Clear', className: 'btn btn-ghost', onClick: ({ setValue }) => setValue('') },
+        { label: 'Clear', className: 'btn btn-ghost', onClick: ({ setValue }) => { setValue(''); persistSource(''); } },
       ],
     });
+
+    // Adopt any restored text as the source, and keep it in step with edits.
+    if (!source && editor.getValue()) persistSource(editor.getValue());
+    editor.textarea.addEventListener('input', () => persistSource(editor.textarea.value));
+
+    // Style buttons read the preserved source and write the styled result.
+    // Copy/Clear stay on the editor's own handle (Copy grabs what's displayed).
+    return {
+      ...editor,
+      getValue: () => source,
+      setValue: (v) => editor.setValue(v),
+    };
   },
 };
