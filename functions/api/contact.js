@@ -9,7 +9,7 @@
 // a graceful "not configured" response.
 
 const SENDER = 'noreply@textwizard.us';
-const RECIPIENT = 'support@textwizard.us';
+const RECIPIENT = 'michal@textwizard.us';
 const MAX = { name: 200, email: 320, subject: 300, message: 5000 };
 
 const json = (obj, status = 200) =>

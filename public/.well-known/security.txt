@@ -1,4 +1,5 @@
-Contact: https://github.com/MichalAFerber/textwizard/issues
-Expires: 2027-12-31T23:59:59.000Z
+Contact: mailto:michal@techguywithabeard.com
+Contact: https://github.com/MichalAFerber/textwizard/security/advisories/new
+Expires: 2027-07-01T00:00:00.000Z
 Preferred-Languages: en
 Canonical: https://textwizard.us/.well-known/security.txt

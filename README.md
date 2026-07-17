@@ -6,6 +6,8 @@ Privacy-first: everything runs in your browser. No uploads, no accounts, no back
 
 Built with [Astro](https://astro.build). The landing page is a hero + tool-card grid, and each tool is its own page at `/tools/<id>`.
 
+**Stack note:** styling is hand-authored, token-driven vanilla CSS (`src/styles/global.css`) instead of Tailwind — the design system is small and ships less CSS this way, so a utility framework doesn't earn its keep at this size.
+
 ## Tools
 
 Each tool is its own page at `/tools/<id>`, and its source is a single file. Click a card's GitHub icon on the site, or use the table below.
@@ -37,8 +39,10 @@ src/
   features/              — framework-agnostic tool modules (mounted client-side)
   scripts/               — tool-mount + shared browser globals
   styles/global.css      — design system
-public/                  — favicon, robots.txt, ads.txt, humans.txt, vendored QR lib
+public/                  — favicons, og.png, _headers (CSP), site.webmanifest, llms.txt,
+                           robots.txt, ads.txt, humans.txt, .well-known/, vendored QR lib
 functions/_middleware.js — Cloudflare Pages host canonicalization (www→apex; *.pages.dev noindex)
+functions/api/contact.js — Contact form handler (ForwardEmail relay + Turnstile verify)
 ```
 
 ## Develop
@@ -60,7 +64,7 @@ Deployed from this repo via Cloudflare Pages. Set the project's build settings t
 ## Contact form
 
 The Contact page (`/contact`) posts to a Cloudflare Pages Function
-(`functions/api/contact.js`) that relays the message to `support@textwizard.us`
+(`functions/api/contact.js`) that relays the message to `michal@textwizard.us`
 via the [ForwardEmail.net](https://forwardemail.net) HTTP API (Workers can't open
 raw SMTP sockets).
 
@@ -74,7 +78,7 @@ Setup:
 
 - `noreply@textwizard.us` — a ForwardEmail alias with outbound sending enabled; its
   password is the `FORWARDEMAIL_PASSWORD` secret.
-- `support@textwizard.us` — receives the mail.
+- `michal@textwizard.us` — receives the mail (the system/notification recipient).
 - Set the secret for **Production** and **Preview**, then redeploy.
 
 Until the secret is set, the endpoint returns a graceful "not configured" message
@@ -96,6 +100,20 @@ Both must be set together. When they're absent the widget is omitted and the for
 still works (honeypot + validation only); when present, the Function verifies the
 token server-side before sending.
 
+## Credits
+
+| Component | Version | License | Use |
+|-----------|---------|---------|-----|
+| [Astro](https://astro.build) | 4.16.19 | MIT | Static site framework |
+| [node-qrcode](https://github.com/soldair/node-qrcode) | 1.4.4 | MIT | QR code generation (vendored UMD, `public/vendor/`) |
+| [unicode-emoji-json](https://github.com/muan/unicode-emoji-json) | 0.9.0 | MIT | Emoji dataset for Emoji Copy |
+| [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) via [@fontsource](https://fontsource.org/fonts/jetbrains-mono) | 5.2.8 | OFL-1.1 | Self-hosted display font for headings |
+| [GitHub mark](https://github.com/logos) | — | © GitHub, Inc. | Inlined SVG linking to the repo |
+
+The brand mark, favicon, and OG image are original work generated for TextWizard.
+Full third-party notices are in [`LICENSE`](LICENSE).
+
 ## License
 
-MIT.
+[MIT](LICENSE) — with bundled third-party component notices in the `LICENSE` file
+(see Credits above).

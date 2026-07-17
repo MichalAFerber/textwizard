@@ -1,0 +1,29 @@
+# TextWizard
+
+> Free, privacy-first text and code tools that run entirely in your browser. No uploads, no accounts, no backend — your text never leaves your device. Open source (MIT), built with Astro, hosted on Cloudflare Pages.
+
+TextWizard is a collection of fast, single-purpose web utilities for working with text and code. Every tool runs client-side in the browser; nothing is sent to a server. Each tool has its own page, and its source is a single file linked from the site.
+
+## Tools
+
+- [Text Tools](https://textwizard.us/tools/text-tools): Trim whitespace, dedupe and sort lines, change case, wrap/unwrap, strip HTML/ANSI, find & replace.
+- [Case Converter](https://textwizard.us/tools/case-converter): UPPER, lower, Title, Sentence, camelCase, snake_case, kebab-case.
+- [Fancy Text](https://textwizard.us/tools/fancy-text): Unicode bold, italic, script, fraktur, monospace, circled, small caps, upside down, and Zalgo.
+- [Code & Data](https://textwizard.us/tools/code-data): Base64/URL/hex, JSON format & convert, CSV↔JSON, XML pretty-print, regex tester, SHA hashes, timestamps, color conversion.
+- [Translators](https://textwizard.us/tools/translators): NATO phonetic alphabet, "A as in Apple" spelling, Pig Latin, phone keypad.
+- [Analyzers](https://textwizard.us/tools/analyzers): Character, word, and line counts plus character-frequency analysis.
+- [Diff](https://textwizard.us/tools/diff): Line-by-line comparison of two texts.
+- [Generators](https://textwizard.us/tools/generators): UUIDs, passwords, random numbers/dates/IPs, hex colors, Lorem ipsum.
+- [QR Code](https://textwizard.us/tools/qr-code): QR code from any URL or text with an optional centered logo, downloadable as PNG.
+- [Emoji Copy](https://textwizard.us/tools/emoji): Browse and click-to-copy every Unicode emoji.
+
+## Docs
+
+- [Docs](https://textwizard.us/docs): How the tools work and how to use them.
+- [Privacy Policy](https://textwizard.us/privacy): What we collect (nothing) and why.
+- [Terms of Use](https://textwizard.us/terms): Terms for using the site.
+
+## Links
+
+- [GitHub](https://github.com/MichalAFerber/textwizard): Source code, MIT licensed.
+- [Contact](https://textwizard.us/contact): Get in touch.

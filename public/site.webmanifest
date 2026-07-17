@@ -1,0 +1,15 @@
+{
+  "name": "TextWizard",
+  "short_name": "TextWizard",
+  "description": "Free online text & code tools that run entirely in your browser.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#eef4f6",
+  "theme_color": "#6366f1",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" },
+    { "src": "/apple-touch-icon.png", "type": "image/png", "sizes": "180x180", "purpose": "any" }
+  ]
+}
