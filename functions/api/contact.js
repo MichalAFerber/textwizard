@@ -90,14 +90,12 @@ export async function onRequestPost({ request, env }) {
   }
 
   const text =
-    `New TextWizard contact message\n\n` +
     `Name:    ${name}\n` +
-    `Email:   ${email}\n` +
-    `Subject: ${subject || '(none)'}\n\n` +
+    `Email:   ${email}\n\n` +
     `${message}\n`;
 
   const body = new URLSearchParams({
-    from: `TextWizard Contact <${SENDER}>`,
+    from: `TextWizard <${SENDER}>`,
     to: RECIPIENT,
     replyTo: SENDER,
     subject: `[TextWizard] ${subject || 'New contact message'}`,
